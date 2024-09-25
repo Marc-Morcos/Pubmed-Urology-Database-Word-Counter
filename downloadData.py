@@ -144,7 +144,7 @@ for pmid in tqdm(id_list,desc="Getting individual article data",leave=True):
 
         df = pd.concat([df, new_row], ignore_index=True)
 
-# drop duplicate studies
+# drop duplicate studies by pmid
 df.drop_duplicates(subset='PMID', inplace=True)
 # Save DataFrame to an Excel file
 df.to_excel('PubMed_results.xlsx', index=False)
