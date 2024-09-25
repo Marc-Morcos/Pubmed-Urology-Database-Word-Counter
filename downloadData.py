@@ -89,22 +89,46 @@ for pmid in tqdm(id_list,desc="Getting individual article data",leave=True):
     for record in records['PubmedArticle']:
         # Print the record in a formatted JSON style
         # print(json.dumps(record, indent=4, default=str))  # default=str handles types JSON can't serialize like datetime
-        title = record['MedlineCitation']['Article']['ArticleTitle']
-        abstract = ' '.join(record['MedlineCitation']['Article']['Abstract']['AbstractText']) if 'Abstract' in record['MedlineCitation']['Article'] and 'AbstractText' in record['MedlineCitation']['Article']['Abstract'] else ''
-        authors = ', '.join(author.get('LastName', '') + ' ' + author.get('ForeName', '') for author in record['MedlineCitation']['Article']['AuthorList'])
-        
-        affiliations = []
-        for author in record['MedlineCitation']['Article']['AuthorList']:
-            if 'AffiliationInfo' in author and author['AffiliationInfo']:
-                affiliations.append(author['AffiliationInfo'][0]['Affiliation'])
-        affiliations = '; '.join(set(affiliations))
+        try:
+            title = record['MedlineCitation']['Article']['ArticleTitle']
+        except:
+            title = ""
 
-        journal = record['MedlineCitation']['Article']['Journal']['Title']
-        keywords = ', '.join(keyword['DescriptorName'] for keyword in record['MedlineCitation']['MeshHeadingList']) if 'MeshHeadingList' in record['MedlineCitation'] else ''
+        try:
+            abstract = ' '.join(record['MedlineCitation']['Article']['Abstract']['AbstractText'])
+        except:
+            abstract = ""
+
+        try:
+            authors = ', '.join(author.get('LastName', '') + ' ' + author.get('ForeName', '') for author in record['MedlineCitation']['Article']['AuthorList'])
+            
+            affiliations = []
+            for author in record['MedlineCitation']['Article']['AuthorList']:
+                if 'AffiliationInfo' in author and author['AffiliationInfo']:
+                    affiliations.append(author['AffiliationInfo'][0]['Affiliation'])
+            affiliations = '; '.join(set(affiliations))
+        except:
+            authors = ""
+            affiliations = ""
+            
+
+        try:
+            journal = record['MedlineCitation']['Article']['Journal']['Title']
+        except:
+            journal = ""
+        
+        try:
+            keywords = ', '.join(keyword['DescriptorName'] for keyword in record['MedlineCitation']['MeshHeadingList']) if 'MeshHeadingList' in record['MedlineCitation'] else ''
+        except:
+            keywords = ""
+        
         url = f"https://www.ncbi.nlm.nih.gov/pubmed/{pmid}"
 
-        pubDate = json.dumps(record['MedlineCitation']['Article']['Journal']["JournalIssue"]["PubDate"])
-
+        try:    
+            pubDate = json.dumps(record['MedlineCitation']['Article']['Journal']["JournalIssue"]["PubDate"])
+        except:
+            pubDate = ""
+            
         new_row = pd.DataFrame({
             'PMID': [pmid],
             'Title': [title],
