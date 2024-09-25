@@ -1,4 +1,5 @@
-#based on https://github.com/TLDWTutorials/PubmedAPI/blob/main/pubmed_api_in_python_2024.py
+# Marc Morcos
+# loosely based on https://github.com/TLDWTutorials/PubmedAPI/blob/main/pubmed_api_in_python_2024.py
 import pandas as pd
 import json
 from Bio import Entrez
