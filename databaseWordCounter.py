@@ -73,7 +73,6 @@ def main():
             continue #filter no abstract
         abstract = getWords(abstract)
         
-
         #prepare output
         if year not in studyDict:
             studyDict[year] = [dict(),0] #[word dict, number of studies for that year]
