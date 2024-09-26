@@ -49,7 +49,7 @@ def main():
     toProcess = []
     inputFile = os.path.abspath("./PubMed_results.xlsx")
     inputDF = pd.read_excel(inputFile).dropna(how="all")
-    stats["Num_papers_assuming_duplicated_already_filtered"] = len(inputDF)
+    stats["Num_papers_assuming_duplicates_already_filtered"] = len(inputDF)
     
     #parse original excel file
     for index, row in tqdm(inputDF.iterrows(), total=len(inputDF), desc="Parsing Data", leave=True) :
