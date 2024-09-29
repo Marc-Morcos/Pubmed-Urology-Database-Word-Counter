@@ -5,7 +5,7 @@ Data extraction code based on: [TLDWTutorials/PubmedAPI](https://github.com/TLDW
 Script to analyze word usage from the pubmed database. The keyword used was `("Urology"[MeSH Terms] OR "Urology"[All Fields])`, plus some date filtering between 1950 and 2025 (up to current day)
 
 Expected outputs are given in the "Output" folder for convenience.
-If you wish to filter for specific words, change the "wordsWeWant" variable in databaseWordCounter.py, then rerun(examples given in the comments on that line).
+If you wish to filter for specific words, change the "wordsWeWant" variable in databaseWordCounter.py, then rerun(examples given in the comments on that line). You can also change "wordsWeDontWant" to filter out words.
 If you wish to rerun the program, follow the instructions below.
 
 To run:
