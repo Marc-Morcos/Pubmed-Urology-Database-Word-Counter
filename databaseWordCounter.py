@@ -33,7 +33,7 @@ def getWords(text, filterNums, wordsWeDontWant = []):
 
 # output all words with their year beside them
 def outputYearWord(toProcess,wordsWeWant,outputDir):
-    output = ["year","word"]
+    output = [["year","word"]]
     
     #count statistics
     for study in tqdm(toProcess,desc="Calculating statistics", leave=True) :
