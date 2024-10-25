@@ -102,7 +102,7 @@ def getStudyDictForPipeline1(toProcess,wordsWeWant):
     
     return studyDict
 
-# old pipeline for output
+# pipeline for output
 def pipeline1(toProcess,wordsWeWant,outputDir):
 
     studyDict = getStudyDictForPipeline1(toProcess,wordsWeWant)
