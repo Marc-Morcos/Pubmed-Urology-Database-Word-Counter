@@ -1,4 +1,3 @@
-from concurrent.futures import ThreadPoolExecutor
 import re
 import csv
 import os
@@ -7,9 +6,10 @@ import numpy as np
 import time
 from tqdm import tqdm
 import json
+from wordsToFilterList import wordsToFilterList
 
 #get list of words
-def getWords(text, filterNums, wordsWeDontWant = []):
+def getWords(text, filterNums, wordsWeDontWant = ()):
     #remove everything but words, digits, whitespace, apostrophe, and dash (replace with space)
     text = re.sub(r'[^\w\d\s\'-]+', ' ', text)
 
@@ -19,17 +19,29 @@ def getWords(text, filterNums, wordsWeDontWant = []):
     #split into words (removes whitespace)
     text=text.split()
 
-    #get rid of 's at END of words
-    text = [re.sub("'s$", '', word) for word in text]
+    newText = []
+    for word in text:
+        # get rid of 's at END of words
+        word = re.sub("'s$", '', word)
 
-    # get rid of numbers
-    if(filterNums):
-        text = [word for word in text if (not word.isnumeric())]
+        # remove apostrophes or dashes at begining/end
+        word = word.strip("-'")
 
-    # get rid of words we dont want
-    text = [word for word in text if (not word in wordsWeDontWant)]
+        # remove one (or zero (can happen due to previous filters)) letter words
+        if len(word) <= 1:
+            continue
 
-    return text
+        # get rid of numbers or numbers seperated by dashes
+        if(filterNums and word.isnumeric() or word.replace('-','').isnumeric()):
+            continue
+
+        # get rid of words we dont want
+        if(word in wordsWeDontWant):
+            continue
+
+        newText.append(word)
+
+    return newText
 
 # output all words with their year beside them
 def outputYearWord(toProcess,wordsWeWant,outputDir):
@@ -149,7 +161,7 @@ def main():
 
     # word filters
     wordsWeWant = None #"Depression,Anxiety,esteem,Schizophrenia,Borderline personality disorder,stress,personality,emasculation,humiliation,isolation,loneliness,frustration" #None
-    wordsWeDontWant = '''thus, p, A, aboard, about, above, abreast, abroad, absent, according, across, adrift, aft, after, afterward, against, ahead, aloft, along, alongside, amid, among, ontop, anti, apropos, around, as, ashore, aslant, astride, at, atop, back, backwards, bar, barring, because, before, beforehand, behind, below, beneath, beside, besides, beyond, but, by, chez, circa, close, come, concerning, contra, contrary, counter, counting, depending, despite, down, downhill, downstairs, downwards, downwind, due, during, east, eastwards, effective, ere, except, excepting, excluding, failing, following, for, forth, forward, from, further, heavenward, hence, henceforth, here, hereby, herein, hereof, hereto, herewith, home, homewards, in, including, indoors, inside, instead, inwards, leftwards, less, like, minus, modulo, near, next, north, northeast, northwest, now, of, offshore, on, onto, onwards, opposite, out, outdoors, outside, outwards, overboard, overhead, overland, overseas, owing, pace, past, pending, per, pertaining, plus, post, pre, prior, pro, qua, re, regarding, regardless, respecting, regards, regard, rightwards, round, sans, seawards, since, skywards, south, southeast, southwards, southwest, sub, thanks, then, thence, thenceforth, there, thereby, therein, thereof, thereto, therewith, throughout, till, times, to, together, touching, towards underfoot, underground, underneath, unlike, until, unto, up, uphill, upon, upstage, upstairs, upwards, upwind, versus, via, vice, wanting, west, westwards, whence, where, whereby, wherein, whereto, wherewith, within, without, worth, although, considering, whilst, while, also, and, additionally, additional, furthermore, as, if, or, to, soon, first, second, third, fourth, however, nonetheless, therefore, similar, similarly, conclusion, the, in, to, and, or, is, patients, cases, are, many, a, between, other, at, per, no, for, it, has, been, such, as, most, become, an, often, will, the, of, was, in, and, it, to, not, into, used, use, had, a, when, as, is, be, by, in, are, can, well, unless, or, who, have, than, for, an, more, on, under, it, with, was, were, Ago, apart, aside, away, notwithstanding, on, over, short, through, I,  you, he, she, it, we, they, my, your, his, her, its, our, their, this, that, these, those, who, whom, which, what, whose, all, any, each, every, none, some, anybody, anyone, anything, myself, yourself, himself, herself, itself, ourselves, themselves,'''
+    wordsWeDontWant = wordsToFilterList
     filterNums = True #if true, filter out words that are entirely numbers
     yearWordMode = False # if true, just outputs each word accompanied by year it showed up in
 
