@@ -17,14 +17,13 @@ apiKey = "your api key as a string"
 email = "your email as a string"
 ```
 
-- Delete the "Output" folder
 - Install python 3.10.9 (https://www.python.org/).
 - Then, in the terminal, run
   `python -m pip install pandas==1.5.2 numpy==1.24.1 tqdm==4.64.1 bio==1.7.1 openpyxl==3.1.5`
 
 To download the data, run `python downloadData.py`
-This will take hours and results will appear in an excel sheet called "PubMed_results.xlsx"
+This will take hours and results will appear in an excel sheet called `PubMed_results.xlsx`
 
-To process the data, run `python databaseWordCounter.py`
+To process the data, run `python databaseWordCounter.py` (If there is an `Output` folder, you must delete it before starting)
 
-The results will appear in a folder called "Output"
+The results will appear in a folder called `Output`

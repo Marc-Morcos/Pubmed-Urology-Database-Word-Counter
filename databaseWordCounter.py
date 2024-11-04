@@ -163,7 +163,7 @@ def main():
     wordsWeWant = None #"Depression,Anxiety,esteem,Schizophrenia,Borderline personality disorder,stress,personality,emasculation,humiliation,isolation,loneliness,frustration" #None
     wordsWeDontWant = wordsToFilterList
     filterNums = True #if true, filter out words that are entirely numbers
-    yearWordMode = False # if true, just outputs each word accompanied by year it showed up in
+    yearWordMode = False # if true, outputs each word accompanied by year it showed up in
 
     wordsWeDontWant = set(getWords(wordsWeDontWant,filterNums))
     
